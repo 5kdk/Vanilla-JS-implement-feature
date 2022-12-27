@@ -9,6 +9,7 @@
     return document.querySelectorAll(target)
   }
 
+  const keys = Array.from(getAll('.key'))
   const soundsRoot = 'assets/sounds/'
   const drumSounds = [
     { key: 81, sound: 'clap.wav' },
@@ -21,4 +22,21 @@
     { key: 88, sound: 'snare.wav' },
     { key: 67, sound: 'tom.wav' },
   ]
+
+  const getAudioElement = (index) => {
+    const audio = document.createElement('audio')
+    audio.dataset.key = drumSounds[index].key
+    audio.src = soundsRoot + drumSounds[index].sound
+    return audio
+  }
+
+  const init = () => {
+    keys.forEach((key, index) => {
+      const audio = getAudioElement(index)
+      key.appendChild(audio)
+      key.dataset.key = drumSounds[index].key
+    })
+  }
+
+  init()
 })()
