@@ -48,7 +48,9 @@
 
   const playSound = (keycode) => {
     const $audio = get(`audio[data-key="${keycode}"]`)
-    if ($audio) {
+    const $key = get(`div[data-key="${keycode}"]`)
+    if ($key && $audio) {
+      $key.classList.add('playing')
       $audio.currentTime = 0
       $audio.play()
     }
