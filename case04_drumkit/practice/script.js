@@ -30,10 +30,37 @@
     return audio
   }
 
+  const onTransitionEnd = (e) => {
+    if (e.propertyName === 'transform') {
+      e.target.classList.remove('playing')
+    }
+  }
+
+  const onMouseDown = (e) => {
+    const keycode = e.target.getAttribute('data-key')
+    playSound(keycode)
+  }
+
+  const onKeyDown = (e) => {
+    const keycode = e.keyCode
+    playSound(keycode)
+  }
+
+  const playSound = (keycode) => {
+    const $audio = get(`audio[data-key="${keycode}"]`)
+    if ($audio) {
+      $audio.currentTime = 0
+      $audio.play()
+    }
+  }
+
   const init = () => {
+    window.addEventListener('keydown', onKeyDown)
     keys.forEach((key, index) => {
       const audio = getAudioElement(index)
       key.appendChild(audio)
+      key.addEventListener('transitionend', onTransitionEnd)
+      key.addEventListener('mousedown', onMouseDown)
       key.dataset.key = drumSounds[index].key
     })
   }
